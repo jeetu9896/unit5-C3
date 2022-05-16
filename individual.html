@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>individual</title>
+    <style>
+         #container{
+            padding: 10px;
+            margin: auto;
+            width: 100%;
+            text-align: center;
+        }
+        nav{
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+        nav >a{
+            margin: 10px;
+            padding: 20px;
+            font-size: 25px;
+            text-decoration: none;
+            color: white;
+        }
+        #container>div{
+            margin: auto;
+            border: 1px solid black;
+            width: 30%;
+            box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+            /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px; */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="search.html">Search</a>
+      </nav>
+    <div id="container">
+
+    </div>
+    
+</body>
+<script>
+    var id=JSON.parse(localStorage.getItem("bid"));
+    var url=`https://api.openbrewerydb.org/breweries/${id}`;
+    async function getdata(){
+        var res = await fetch(url);
+        var data= await res.json();
+        console.log(data);
+
+
+        var box= document.createElement("div");
+
+        var name=document.createElement("p")
+        name.innerText= `Name: ${data.name}`
+        var type=document.createElement("p")
+        type.innerText= `Type: ${data.brewery_type}`
+        
+        var city=document.createElement("p")
+        city.innerText= `City: ${data.city}`
+
+        var state=document.createElement("p")
+        state.innerText= `State: ${data.state}`
+
+        var post=document.createElement("p")
+        post.innerText= `Postal Code: ${data.postal_code}`
+        
+        var phone=document.createElement("p")
+        phone.innerText= `Phone Number: ${data.phone}`
+        
+        var county=document.createElement("p")
+        county.innerText= `Country: ${data.country}`
+        
+
+        box.append(name,type,city,state,post,phone,county);
+
+        document.querySelector("#container").append(box);
+    }
+    getdata();
+</script>
+</html>

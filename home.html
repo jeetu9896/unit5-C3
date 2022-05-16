@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+        #container{
+            padding: 10px;
+            margin: auto;
+            width: 100%;
+            text-align: center;
+        }
+        nav{
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+        nav >a{
+            margin: 10px;
+            padding: 20px;
+            font-size: 25px;
+            text-decoration: none;
+            color: white;
+        }
+
+       table{
+           margin: auto;
+           width: 80%;
+         border: 1px solid red;
+        } 
+        table tr{
+            border: 1px solid bl;
+        } 
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="search.html">Search</a>
+    </nav>
+    <div id="container">
+      <table border="2">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Brewwery Type</th>
+            <th>City</th>
+            <th>State</th>
+            <th>More Detail</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    var url = `https://api.openbrewerydb.org/breweries`;
+    async function test() {
+      var res = await fetch(url);
+
+      var data = await res.json();
+
+      getdata(data);
+      // console.log(data);
+    }
+    test();
+    var id;
+
+    function getdata(data) {
+      data.forEach((ele) => {
+        var tr = document.createElement("tr");
+        var tdname = document.createElement("td");
+        tdname.innerText = ele.name;
+        var tdtype = document.createElement("td");
+        tdtype.innerText = ele.brewery_type;
+        var tdcity = document.createElement("td");
+        tdcity.innerText = ele.city;
+        var tdstate = document.createElement("td");
+        tdstate.innerText = ele.state;
+
+        var tdmore = document.createElement("td");
+        var tdmoreanchor = document.createElement("input");
+        tdmoreanchor.type = "submit";
+
+        tdmoreanchor.value = "More Details";
+        tdmoreanchor.setAttribute("class", "btn");
+
+        tdmoreanchor.onclick = function getid() {
+          alert("Pleae wait");
+
+          localStorage.setItem("bid", JSON.stringify(ele.id));
+          window.location.href = "individual.html";
+        };
+
+        tdmore.append(tdmoreanchor);
+
+        tr.append(tdname, tdtype, tdcity, tdstate, tdmore);
+
+        document.querySelector("tbody").append(tr);
+      });
+    }
+  </script>
+</html>
